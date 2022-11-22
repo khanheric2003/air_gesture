@@ -1,8 +1,12 @@
-import cv2
+
 import mediapipe as mp
+import cv2
+from pynput.keyboard import Key, Controller
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_hands = mp.solutions.hands
+
+kb = Controller()
 
 # For static images:
 IMAGE_FILES = []
@@ -69,6 +73,13 @@ with mp_hands.Hands(
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
         if results.multi_hand_landmarks:
             for hand_landmarks in results.multi_hand_landmarks:
+                # Add instruction when received the action (testing for dinosaur game in chrome)
+                if hand_landmarks.landmark[8].y < hand_landmarks.landmark[7].y and hand_landmarks.landmark[12].y <\
+                        hand_landmarks.landmark[11].y and hand_landmarks.landmark[16].y < hand_landmarks.landmark[15].y:
+                    kb.press(Key.space)  # press space button
+                else:
+                    kb.release(Key.space)  # release it ofcourse
+
                 mp_drawing.draw_landmarks(
                     image,
                     hand_landmarks,
