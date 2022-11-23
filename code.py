@@ -1,12 +1,16 @@
+# Replacing keyboard and use hand gesture to play league.
 
 import mediapipe as mp
 import cv2
 from pynput.keyboard import Key, Controller
+
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_hands = mp.solutions.hands
 
+# print(tf.__version__)
 kb = Controller()
+
 
 # For static images:
 IMAGE_FILES = []
@@ -76,9 +80,32 @@ with mp_hands.Hands(
                 # Add instruction when received the action (testing for dinosaur game in chrome)
                 if hand_landmarks.landmark[8].y < hand_landmarks.landmark[7].y and hand_landmarks.landmark[12].y <\
                         hand_landmarks.landmark[11].y and hand_landmarks.landmark[16].y < hand_landmarks.landmark[15].y:
-                    kb.press(Key.space)  # press space button
-                else:
-                    kb.release(Key.space)  # release it ofcourse
+                    kb.press('r')
+                    kb.release('r')
+
+                # Other spell
+                # if x (2 * image_width)/5:
+                #     kb.press('d')
+                #     kb.release('d')
+
+                # # flash
+                # if x < image_width/5:
+                #     kb.press('f')
+                #     kb.release('f')
+
+                # Abilities
+                elif hand_landmarks.landmark[8].y < hand_landmarks.landmark[7].y:
+                    kb.press('q')
+                    kb.release('q')
+                elif hand_landmarks.landmark[12].y < hand_landmarks.landmark[11].y:
+                    kb.press('w')
+                    kb.release('w')
+                elif hand_landmarks.landmark[20].y < hand_landmarks.landmark[19].y:
+                    kb.press('e')
+                    kb.release('e')
+                # else:
+
+                    # kb.release(Key.space)  # release it ofcourse
 
                 mp_drawing.draw_landmarks(
                     image,
